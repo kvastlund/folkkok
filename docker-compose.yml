@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  wordpress:
+    image: docker.io/library/wordpress:latest
+    ports:
+      - 8080:80
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=devuser
+      - WORDPRESS_DB_PASSWORD=devpw
+      - WORDPRESS_DB_NAME=wordpressdb
+    volumes:
+      - ./var/www/html:/var/www/html
+  db:
+    image: docker.io/library/mariadb:10.11.6-jammy
+    command: '--default-authentication-plugin=mysql_native_password'
+    environment:
+      - MYSQL_ROOT_PASSWORD=devrootpw
+      - MYSQL_DATABASE=wordpressdb
+      - MYSQL_USER=devuser
+      - MYSQL_PASSWORD=devpw
+    volumes:
+      - ./var/lib/mysql:/var/lib/mysql
